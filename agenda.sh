@@ -69,6 +69,15 @@ echo $projnumber
 
 # Create cluster - NOT POSSIBLE for M0 free tiers (https://docs.atlas.mongodb.com/reference/free-shared-limitations/#atlas-free-tier)
 # "You cannot modify or configure an M0 Free Tier cluster using the Clusters API endpoint"
+# Create database - NOT POSSIBLE (https://stackoverflow.com/questions/42881487/does-mongodb-atlas-support-rest-api-to-the-database-and-collection)
+# "We have partnered with a number of vendors in this space to allow users to take advantage of Atlas and MongoDB features from within their favored development environments"
+
+# Connect - done using web interface
+# Connection string: mongodb+srv://daily-app-dbuser:daily-app@cluster0-moilt.mongodb.net/daily-app?retryWrites=true&w=majority
+
+# Populate DB
+npm install async
+node populatedb.js 'mongodb+srv://daily-app-dbuser:daily-app@cluster0-moilt.mongodb.net/daily-app?retryWrites=true&w=majority'
 
 # Push application to github
 git add -A
