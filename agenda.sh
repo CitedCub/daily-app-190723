@@ -45,6 +45,31 @@ npm install --save-dev nodemon
 # Install jest (https://medium.com/@ryanblahnik/setting-up-testing-with-jest-and-node-js-b793f1b5621e)
 npm install --save-dev jest
 
+# Install mongoose
+npm install --save mongoose
+
+## Configure MongoDB Atlas
+# Set organization name
+orgname="DailyAppOrg"
+# Set project name
+projname="DailyAppProject"
+
+# Get information about organizations
+orginfo=$(curl --user "andreas.erlandsson@gmail.com:ed3fec37-5aba-4eab-ac5a-1bd860fa69a7" --digest --header "Accept: application/json" --header "Content-Type: application/json" "https://cloud.mongodb.com/api/atlas/v1.0/orgs?pretty=true")
+# Get id of newly created organization
+orgnumber=$(jq '.results | map(select(.name == "'"$orgname"'")) | .[0].id' <(echo $orginfo))
+orgnumber=${orgnumber//\"/}
+
+# Get information about projects
+projinfo=$(curl -u "andreas.erlandsson@gmail.com:ed3fec37-5aba-4eab-ac5a-1bd860fa69a7" --digest "https://cloud.mongodb.com/api/atlas/v1.0/groups?pretty=true")
+# Get id of newly created project
+projnumber=$(jq '.results | map(select(.name == "'"$projname"'")) | .[0].id' <(echo $projinfo))
+projnumber=${projnumber//\"/}
+echo $projnumber
+
+# Create cluster - NOT POSSIBLE for M0 free tiers (https://docs.atlas.mongodb.com/reference/free-shared-limitations/#atlas-free-tier)
+# "You cannot modify or configure an M0 Free Tier cluster using the Clusters API endpoint"
+
 # Push application to github
 git add -A
 git commit -m "Configured app further"
